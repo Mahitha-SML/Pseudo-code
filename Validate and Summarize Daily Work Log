@@ -1,0 +1,36 @@
+FUNCTION validateAndSummarizeWorkSesion(sessions)
+
+IF sessions == 0 THEN
+RETURN {"No sessions are available"}
+
+FOR EACH session IN sessions
+session_count += 1 
+IF (session_start_time < 0 OR session_start_time > 1439) OR (session_end_time < 0 OR session_end_time > 1439) THEN
+RETURN {"Time not within range"}
+
+current_session = session
+IF current_session_start_time < current_session_end_time THEN
+total_minutes += current_session_end_time-current_session_start_time
+IF session_count > 1
+IF previous_session_end_time < current_session_start_time THEN
+DISPLAY {"ISvalid : true"}
+previous_session = current_session
+ELSE
+DISPLAY {"Overlapping session"}
+DISPLAY {"ISvalid : false"}
+previous_session = current_session
+BREAK
+END IF
+ELSE
+DISPLAY {"invalid time"}
+END IF
+END FOR
+DISPLAY {"Total minutes : " total_minutes}
+DISPLAY {"Session Count : " session_count}
+END IF
+END FUNCTION
+FUNCTION MAIN
+sessions = INPUT
+summary = validateAndSummarizeWorkSesion(sessions)
+DISPLAY summary
+END FUNCTION

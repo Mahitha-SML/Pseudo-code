@@ -1,0 +1,34 @@
+1) Read all the items in cart:
+IF items == 0 THEN
+DISPLAY 
+{"Product not available in cart"}
+ELSE
+FOR EACH item IN items
+DISPLAY item
+END IF
+END FOR
+ 
+2) Validate quantities against inventory:
+IF item_quantity > inventory_item_stock THEN
+DISPLAY {"Quantity not available in inventory"}
+ELSE
+DISPLAY {"Quantity is available"}
+END IF
+
+3) Validate prices against the latest catalog:
+FOR EACH item IN items
+IF item_price == catalog_item_price THEN 
+DISPLAY {"Matched"}
+ELSE
+DISPLAY {"Not Matched"}
+END IF
+END FOR
+
+4) Validation Errors
+IF items == 0 OR  item_quantity > inventory_item_stock OR item_price != catalog_item_price
+DISPLAY {"No checkout is  done"}
+CHECKOUT = FALSE
+ELSE
+CHECKOUT = TRUE
+END IF
+
