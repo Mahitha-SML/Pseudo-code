@@ -1,0 +1,53 @@
+IF item.length IN checkout == 0
+RETURN {"no item in checkout"}
+
+FOR EACH item IN checkout
+total_price += item_price
+END FOR
+DISPLAY {"SUBTOTAL" total_price}
+
+IF delivery_type == 'Standard'
+DISPLAY {"Shipping cost = 30"}
+total_price += 30
+ELSE IF delivery_type == 'Express'
+DISPLAY {"Shipping cost = 60"}
+total_price += 60
+ELSE IF delivery_type == 'Same day/next day'
+DISPLAY {"Shipping cost = 100"}
+total_price += 100
+ELSE
+DISPLAY {"Invalid delivery type"}
+END IF
+DISPLAY {" Includes Shipping charge " total_price}
+
+IF Discount == 'Apply'
+cap_amount = 300
+discounted_price = (0.30*total_price)
+IF discounted_price < cap_amount
+final_price = total_price - discounted_price
+ELSE
+final_price = total_price - cap_amount
+END IF
+DISPLAY {" DISCOUNT APPLIED.... Total Amount" final_price}
+ELSE
+final_price = total_price
+DISPLAY {" DISCOUNT NOT APPLIED.... Total Amount" final_price}
+
+
+IF user_region =='TN' THEN
+Tot_price = final_price + (0.10*final_price)
+ELSE IF user_region =='KA' THEN
+Tot_price = final_price + (0.40*final_price)
+ELSE IF user_region =='KL' THEN
+Tot_price = final_price + (0.30*final_price)
+ELSE
+DISPLAY {"Delivery not available for the region"}
+RETURN
+END IF
+
+IF Tot_price < 0
+Tot_price = 0
+DISPLAY {" Total Amount" Tot_price}
+ELSE
+DISPLAY {" Total Amount" Tot_price}
+END IF
