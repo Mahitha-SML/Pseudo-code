@@ -1,0 +1,23 @@
+checkout_timer = true
+start_time = CURRENT_TIME()
+expiry_time = start_time + 120
+
+IF inventory_stock == NULL
+RETURN {"No stocks available"}
+
+IF checkout_item == NULL
+RETURN {"No item in stock"}
+
+FOR EACH item IN checkout_item 
+IF checkout_item_qty > inventory_item_qty 
+RETURN {"Item quantity exceeding inventory quantity"} 
+ELSE 
+inventory_item_qty -= checkout_item_qty
+IF CURRENT_TIME() > expiry_time
+inventory_item_qty += checkout_item_qty
+RETURN {"Checkout expires"}
+ELSE
+DISPLAY {"Checkout processed"}
+END IF
+END IF
+END FOR
