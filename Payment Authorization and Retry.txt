@@ -1,0 +1,19 @@
+max_retry = 3
+retry_count = 0
+
+WHILE retry_count < max_retry
+retry_count += 1
+response = submit_pay()
+ATTEMPT(retry_count, response)
+IF response == "SUCCESS"
+DISPLAY {"Payment Successful"}
+BREAK
+ELSE IF response == "TRANSIENT_FAILURE"
+DISPLAY {"Temporary failure...Try Later"}
+ELSE IF response == "HARD_FAILURE"
+DISPLAY {"Hard failure...Payment Failed"}
+BREAK
+END IF
+END WHILE
+IF retry_count == max_retry AND response != "SUCCESS"
+DISPLAY {"Limit Over.....Payment Failed"}
